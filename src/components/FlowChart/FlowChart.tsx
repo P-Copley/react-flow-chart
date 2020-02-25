@@ -1,63 +1,97 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
-  CanvasInnerDefault, CanvasOuterDefault, CanvasWrapper, ICanvasInnerDefaultProps, ICanvasOuterDefaultProps, IChart, IConfig, ILink,
-  ILinkDefaultProps, INodeDefaultProps, INodeInnerDefaultProps, IOnCanvasClick, IOnCanvasDrop, IOnDeleteKey, IOnDragCanvas,
-  IOnDragNode, IOnLinkCancel, IOnLinkClick, IOnLinkComplete, IOnLinkMouseEnter,
-  IOnLinkMouseLeave, IOnLinkMove, IOnLinkStart, IOnNodeClick, IOnNodeSizeChange, IOnPortPositionChange, IPortDefaultProps,
-  IPortsDefaultProps, ISelectedOrHovered, LinkDefault, LinkWrapper, NodeDefault, NodeInnerDefault, NodeWrapper, PortDefault, PortsDefault,
-} from '../../'
+  CanvasInnerDefault,
+  CanvasOuterDefault,
+  CanvasWrapper,
+  ICanvasInnerDefaultProps,
+  ICanvasOuterDefaultProps,
+  IChart,
+  IConfig,
+  ILink,
+  ILinkDefaultProps,
+  INodeDefaultProps,
+  INodeInnerDefaultProps,
+  IOnCanvasClick,
+  IOnCanvasDrop,
+  IOnDeleteKey,
+  IOnDragCanvas,
+  IOnDragNode,
+  IOnLinkCancel,
+  IOnLinkClick,
+  IOnLinkComplete,
+  IOnLinkMouseEnter,
+  IOnLinkMouseLeave,
+  IOnLinkMove,
+  IOnLinkStart,
+  IOnNodeClick,
+  IOnNodeSizeChange,
+  IOnPortPositionChange,
+  IPortDefaultProps,
+  IPortsDefaultProps,
+  ISelectedOrHovered,
+  LinkDefault,
+  LinkWrapper,
+  NodeDefault,
+  NodeInnerDefault,
+  NodeWrapper,
+  PortDefault,
+  PortsDefault
+} from '../../';
 
 export interface IFlowChartCallbacks {
-  onDragNode: IOnDragNode
-  onDragCanvas: IOnDragCanvas
-  onCanvasDrop: IOnCanvasDrop
-  onLinkStart: IOnLinkStart
-  onLinkMove: IOnLinkMove
-  onLinkComplete: IOnLinkComplete
-  onLinkCancel: IOnLinkCancel
-  onPortPositionChange: IOnPortPositionChange
-  onLinkMouseEnter: IOnLinkMouseEnter
-  onLinkMouseLeave: IOnLinkMouseLeave
-  onLinkClick: IOnLinkClick
-  onCanvasClick: IOnCanvasClick
-  onDeleteKey: IOnDeleteKey
-  onNodeClick: IOnNodeClick
-  onNodeSizeChange: IOnNodeSizeChange
+  onDragNode: IOnDragNode;
+  onDragCanvas: IOnDragCanvas;
+  onCanvasDrop: IOnCanvasDrop;
+  onLinkStart: IOnLinkStart;
+  onLinkMove: IOnLinkMove;
+  onLinkComplete: IOnLinkComplete;
+  onLinkCancel: IOnLinkCancel;
+  onPortPositionChange: IOnPortPositionChange;
+  onLinkMouseEnter: IOnLinkMouseEnter;
+  onLinkMouseLeave: IOnLinkMouseLeave;
+  onLinkClick: IOnLinkClick;
+  onCanvasClick: IOnCanvasClick;
+  onDeleteKey: IOnDeleteKey;
+  onNodeClick: IOnNodeClick;
+  onNodeSizeChange: IOnNodeSizeChange;
 }
 
 export interface IFlowChartComponents {
-  CanvasOuter?: React.FunctionComponent<ICanvasOuterDefaultProps>
-  CanvasInner?: React.FunctionComponent<ICanvasInnerDefaultProps>
-  NodeInner?: React.FunctionComponent<INodeInnerDefaultProps>
-  Ports?: React.FunctionComponent<IPortsDefaultProps>
-  Port?: React.FunctionComponent<IPortDefaultProps>
-  Node?: React.FunctionComponent<INodeDefaultProps>
-  Link?: React.FunctionComponent<ILinkDefaultProps>
+  CanvasOuter?: React.FunctionComponent<ICanvasOuterDefaultProps>;
+  CanvasInner?: React.FunctionComponent<ICanvasInnerDefaultProps>;
+  NodeInner?: React.FunctionComponent<INodeInnerDefaultProps>;
+  Ports?: React.FunctionComponent<IPortsDefaultProps>;
+  Port?: React.FunctionComponent<IPortDefaultProps>;
+  Node?: React.FunctionComponent<INodeDefaultProps>;
+  Link?: React.FunctionComponent<ILinkDefaultProps>;
 }
 
 export interface IFlowChartProps {
   /**
    * The current chart state
    */
-  chart: IChart
+  chart: IChart;
   /**
    * Callbacks for updating chart state.
    * See container/actions.ts for example state mutations
    */
-  callbacks: IFlowChartCallbacks
+  callbacks: IFlowChartCallbacks;
   /**
    * Custom components
    */
-  Components?: IFlowChartComponents
+  Components?: IFlowChartComponents;
   /**
    * Other config. This will be passed into all components and actions.
    * Don't store state here as it may trigger re-renders
    */
-  config?: IConfig
+  config?: IConfig;
 }
 
 export const FlowChart = (props: IFlowChartProps) => {
-  const [ canvasSize, setCanvasSize ] = React.useState<{ width: number, height: number }>({ width: 0, height: 0 })
+  const [canvasSize, setCanvasSize] = React.useState<{
+    width: number;
+    height: number;
+  }>({ width: 0, height: 0 });
 
   const {
     chart,
@@ -76,7 +110,7 @@ export const FlowChart = (props: IFlowChartProps) => {
       onCanvasClick,
       onDeleteKey,
       onNodeClick,
-      onNodeSizeChange,
+      onNodeSizeChange
     },
     Components: {
       CanvasOuter = CanvasOuterDefault,
@@ -85,38 +119,58 @@ export const FlowChart = (props: IFlowChartProps) => {
       Ports = PortsDefault,
       Port = PortDefault,
       Node = NodeDefault,
-      Link = LinkDefault,
+      Link = LinkDefault
     } = {},
-    config = {},
-  } = props
-  const { links, nodes, selected, hovered, offset } = chart
+    config = {}
+  } = props;
+  const { links, nodes, selected, hovered, offset } = chart;
 
-  const canvasCallbacks = { onDragCanvas, onCanvasClick, onDeleteKey, onCanvasDrop }
-  const linkCallbacks = { onLinkMouseEnter, onLinkMouseLeave, onLinkClick }
-  const nodeCallbacks = { onDragNode, onNodeClick, onNodeSizeChange }
-  const portCallbacks = { onPortPositionChange, onLinkStart, onLinkMove, onLinkComplete, onLinkCancel }
+  const canvasCallbacks = {
+    onDragCanvas,
+    onCanvasClick,
+    onDeleteKey,
+    onCanvasDrop
+  };
+  const linkCallbacks = { onLinkMouseEnter, onLinkMouseLeave, onLinkClick };
+  const nodeCallbacks = { onDragNode, onNodeClick, onNodeSizeChange };
+  const portCallbacks = {
+    onPortPositionChange,
+    onLinkStart,
+    onLinkMove,
+    onLinkComplete,
+    onLinkCancel
+  };
 
-  const nodesInView = Object.keys(nodes).filter((nodeId) => {
+  const nodesInView = Object.keys(nodes).filter(nodeId => {
     // TODO: define this in chart?
-    const defaultNodeSize = { width: 500, height: 500 }
+    const defaultNodeSize = { width: 500, height: 500 };
 
-    const { x, y } = nodes[nodeId].position
-    const size = nodes[nodeId].size || defaultNodeSize
+    const { x, y } = nodes[nodeId].position;
+    const size = nodes[nodeId].size || defaultNodeSize;
+    // Disabling to allow scaling of the chart
+    return true;
+    return (
+      // below top ~ 55% 63 72
+      x + offset.x + size.width > 0 &&
+      // above bottom
+      x + offset.x < canvasSize.width &&
+      // after left
+      y + offset.y + size.height > 0 &&
+      // before right
+      y + offset.y < canvasSize.height
+    );
+  });
 
-    return x + offset.x + size.width > 0 && x + offset.x < canvasSize.width &&
-      y + offset.y + size.height > 0 && y + offset.y < canvasSize.height
-  })
-
-  const linksInView = Object.keys(links).filter((linkId) => {
-    const from = links[linkId].from
-    const to = links[linkId].to
+  const linksInView = Object.keys(links).filter(linkId => {
+    const from = links[linkId].from;
+    const to = links[linkId].to;
 
     return (
       !to.nodeId ||
       nodesInView.indexOf(from.nodeId) !== -1 ||
       nodesInView.indexOf(to.nodeId) !== -1
-    )
-  })
+    );
+  });
 
   return (
     <CanvasWrapper
@@ -127,11 +181,15 @@ export const FlowChart = (props: IFlowChartProps) => {
       onSizeChange={(width, height) => setCanvasSize({ width, height })}
       {...canvasCallbacks}
     >
-      { linksInView.map((linkId) => {
-        const isSelected = !config.readonly && selected.type === 'link' && selected.id === linkId
-        const isHovered = !config.readonly && hovered.type === 'link' && hovered.id === linkId
-        const fromNodeId = links[linkId].from.nodeId
-        const toNodeId = links[linkId].to.nodeId
+      {linksInView.map(linkId => {
+        const isSelected =
+          !config.readonly &&
+          selected.type === 'link' &&
+          selected.id === linkId;
+        const isHovered =
+          !config.readonly && hovered.type === 'link' && hovered.id === linkId;
+        const fromNodeId = links[linkId].from.nodeId;
+        const toNodeId = links[linkId].to.nodeId;
 
         return (
           <LinkWrapper
@@ -145,12 +203,12 @@ export const FlowChart = (props: IFlowChartProps) => {
             toNode={toNodeId ? nodes[toNodeId] : undefined}
             {...linkCallbacks}
           />
-        )
+        );
       })}
-      { nodesInView.map((nodeId) => {
-        const isSelected = selected.type === 'node' && selected.id === nodeId
-        const selectedLink = getSelectedLinkForNode(selected, nodeId, links)
-        const hoveredLink = getSelectedLinkForNode(hovered, nodeId, links)
+      {nodesInView.map(nodeId => {
+        const isSelected = selected.type === 'node' && selected.id === nodeId;
+        const selectedLink = getSelectedLinkForNode(selected, nodeId, links);
+        const hoveredLink = getSelectedLinkForNode(hovered, nodeId, links);
 
         return (
           <NodeWrapper
@@ -170,23 +228,23 @@ export const FlowChart = (props: IFlowChartProps) => {
             {...nodeCallbacks}
             {...portCallbacks}
           />
-        )
-      })
-    }
+        );
+      })}
     </CanvasWrapper>
-  )
-}
+  );
+};
 
 const getSelectedLinkForNode = (
   selected: ISelectedOrHovered,
   nodeId: string,
-  links: IChart['links'],
+  links: IChart['links']
 ): ILink | undefined => {
-  const link = selected.type === 'link' && selected.id ? links[selected.id] : undefined
+  const link =
+    selected.type === 'link' && selected.id ? links[selected.id] : undefined;
 
   if (link && (link.from.nodeId === nodeId || link.to.nodeId === nodeId)) {
-    return link
+    return link;
   }
 
-  return undefined
-}
+  return undefined;
+};

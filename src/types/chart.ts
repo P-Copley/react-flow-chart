@@ -1,58 +1,58 @@
-import { IPosition, ISize } from './generics'
+import { IPosition, ISize } from './generics';
 
 export interface IChart {
-  offset: IPosition
+  offset: IPosition;
   nodes: {
-    [id: string]: INode,
-  }
+    [id: string]: INode;
+  };
   links: {
-    [id: string]: ILink,
-  }
-  properties?: any
+    [id: string]: ILink;
+  };
+  properties?: any;
 
   /** System Temp */
-  selected: ISelectedOrHovered
-  hovered: ISelectedOrHovered
+  selected: ISelectedOrHovered;
+  hovered: ISelectedOrHovered;
 }
 
 export interface ISelectedOrHovered {
-  type?: 'link' | 'node' | 'port',
-  id?: string
+  type?: 'link' | 'node' | 'port';
+  id?: string;
 }
 
 export interface INode {
-  id: string
-  type: string
-  position: IPosition
-  orientation?: number
+  id: string;
+  type: string;
+  position: IPosition;
+  orientation?: number;
   ports: {
-    [id: string]: IPort,
-  }
-  properties?: any
+    [id: string]: IPort;
+  };
+  properties?: any;
   /** System Temp */
-  size?: ISize
+  size?: ISize;
 }
 
 export interface IPort {
-  id: string
-  type: string
-  value?: string
-  properties?: any
+  id: string;
+  type: string;
+  value?: string;
+  properties?: any;
   /** System Temp */
-  position?: IPosition
+  position?: IPosition;
 }
 
 export interface ILink {
-  id: string
+  id: string;
   from: {
-    nodeId: string
-    portId: string,
-  }
+    nodeId: string;
+    portId: string;
+  };
   to: {
-    nodeId?: string
-    portId?: string
+    nodeId?: string;
+    portId?: string;
     /** System Temp */
-    position?: IPosition,
-  }
-  properties?: any
+    position?: IPosition;
+  };
+  properties?: any;
 }
